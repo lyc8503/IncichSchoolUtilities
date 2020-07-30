@@ -2,7 +2,7 @@
 
 #### 部署
 
-找一台 VPS(或自建服务器), 直接在 incich_school_utilities 目录下运行 python3 main.py. (初次运行需要根据提示配置.)
+找一台 VPS(或自建服务器), 直接在 incich_school_utilities 目录下运行 `python3 main.py`. (初次运行需要根据提示配置.)
 
 依赖: 
 
