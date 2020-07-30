@@ -177,6 +177,8 @@ class IncichStudent:
             self.send_msg(msg[800:])
             return None
 
+        logging.info("发送的消息: " + msg)
+
         req = self.post(self.api_url + "/message/save", params={
             "classid": self.class_id,
             "schoolid": self.school_id,

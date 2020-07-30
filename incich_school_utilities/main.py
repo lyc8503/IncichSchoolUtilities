@@ -116,6 +116,7 @@ stu = IncichStudent(config['unionid'], config['name'], config['code'])
 time.sleep(2)
 stu.send_msg("Incich School Utilities v2 启动成功. 输入Help以查询更多信息.")
 
+handle("music search 千本樱")
 
 while True:
     print("获取消息...")
