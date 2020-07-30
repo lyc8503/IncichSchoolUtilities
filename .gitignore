@@ -1,0 +1,4 @@
+*.conf
+*.json
+old_deprecated
+__pycache__
