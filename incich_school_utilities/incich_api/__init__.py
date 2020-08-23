@@ -285,7 +285,7 @@ class IncichStudent:
             suffix = random.randint(9999999, 100000000)
 
             bind_res = self.bind(self.class_id, self.grade_id, self.school_id,
-                                 "Bot", "1{}{}{}".format(second, third, suffix))
+                                 "IncichRobot", "1{}{}{}".format(second, third, suffix))
             if not bind_res['success']:
                 raise Exception("绑定学生失败: " + str(bind_res))
             self.student_guid = bind_res['guid']
