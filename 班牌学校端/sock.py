@@ -1,14 +1,23 @@
 import socket
+import logging
 
 
-def connect():
-    pass
+class IncichSock:
 
-def disconnect():
-    pass
+    def __init__(self, ip, port):
+        sock = socket.socket()
+        sock.connect((ip, port))
+        sock.settimeout(10)
+        self.sock = sock
 
-def send():
-    pass
+    def disconnect(self):
+        self.sock.close()
 
-def recv(int):
-    pass
+    def send(self, data):
+        logging.debug("SEND: " + data)
+        self.sock.send(bytes.fromhex(data))
+
+    def recv(self):
+        res = self.sock.recv(409600).hex()
+        logging.debug("RECV: " + res)
+        return res

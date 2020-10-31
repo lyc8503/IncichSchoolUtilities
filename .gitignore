@@ -2,3 +2,4 @@
 *.json
 old_deprecated
 __pycache__
+.idea
