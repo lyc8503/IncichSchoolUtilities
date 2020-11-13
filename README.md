@@ -8,7 +8,8 @@
 
 - 相关 python 库(在 pip 上都有)
 
-- 网易云音乐需要 ffmpeg 用于转码, ffmpeg 需要支持 amr 转码.
+- ~~网易云音乐需要 ffmpeg 用于转码, ffmpeg 需要支持 amr 转码.~~
+经过测试，班牌可直接播放mp3文件，无需转码成amr
 
 #### 基础功能: 
 
