@@ -25,4 +25,4 @@
 
 - 提供了 python 包装的 api, 在 /incich_school_utilities/incich_api 下, 有能力的人可以自行开发.
 
-本项目基于https://github.com/lyc8503/IncichSchoolUtilities进行二次开发
+本项目基于：https://github.com/lyc8503/IncichSchoolUtilities 进行二次开发
