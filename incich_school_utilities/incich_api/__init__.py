@@ -244,6 +244,31 @@ class IncichStudent:
         self.msg_processed.append(req['guid'])
         return req
 
+
+    # 发送一条测试消息，类型：3
+    def send_test_msg(self, input_file):
+        res = requests.post('http://school.incich.com:9207/UploadImageServlet', files={
+            "file": input_file
+        }).json()
+        logging.info(res)
+        req = self.post(self.api_url + "/message/save", params={
+            "classid": self.class_id,
+            "schoolid": self.school_id,
+            "gradeid": self.grade_id,
+            "adduser": self.union_id,
+            "addusername": "IncichRobot",
+            "type": 3,
+            "stuname": self.student_name,
+            "stuguid": self.student_guid,
+            "url": res['url'],
+            "voicelen": 0,
+            "msg": ""
+        }).json()
+        logging.info(req)
+        self.msg_processed.append(req['guid'])
+        return req
+
+
     def __init__(self, union_id, student_name, invite_code):
         logging.info("正在初始化...")
         self.union_id = union_id
@@ -302,7 +327,7 @@ class IncichStudent:
         logging.info("消息GUID: " + str(self.msg_processed))
 
         logging.info("尝试发送文本消息...")
-        msg_res = self.send_msg("Incich School v2 API 初始化成功.")
+        msg_res = self.send_msg("Incich School v3-Beta API 初始化成功.")
         if not msg_res['success']:
             raise Exception("发送消息失败: " + str(msg_res))
 
