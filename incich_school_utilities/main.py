@@ -16,7 +16,7 @@ def send(msg):
 
     if msg[:10] == 'send test ':
         if os.path.isfile(msg[10:]):
-            stu.send_msg("正在上传测试文件至班牌...")
+            stu.send_msg("正在发送测试文件至班牌...")
             f = open(msg[10:], "rb")
             stu.send_test_msg(f)
             f.close()
