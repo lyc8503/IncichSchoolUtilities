@@ -11,6 +11,77 @@ import json
 # 命令格式: 方法, 对应指令, 说明
 commands = []
 
+def send(msg):
+    global stu
+
+    if msg[:10] == 'send test ':
+        if os.path.isfile(msg[10:]):
+            stu.send_msg("正在上传测试文件至班牌...")
+            f = open(msg[10:], "rb")
+            stu.send_test_msg(f)
+            f.close()
+        else:
+            stu.send_msg("错误：" + msg[10:] + "不存在")
+        return
+
+    if msg[:10] == 'send view ':
+        if os.path.exists(msg[10:]):
+            if os.path.isfile(msg[10:]):
+                stu.send_msg("错误：路径" + msg[10:] + "指向一个文件")
+            else:
+                for res in os.listdir(msg[10:]):
+                    stu.send_msg("正在查看服务器目录：" + msg[10:])
+                    stu.send_msg(res)
+        else:
+            stu.send_msg("错误：目录" + msg[10:] + "不存在")
+        return
+
+    if msg[:13] == 'send message ':
+        stu.send_msg("正在发送消息至班牌...")
+        stu.send_msg(msg[13:])
+        return
+
+    if msg[:11] == 'send text ':
+        if os.path.isfile(msg[10:]):
+            stu.send_msg("正在发送文本至班牌...")
+            f = open(msg[10:])
+            stu.send_msg(f.read())
+            f.close()
+        else:
+            stu.send_msg("错误：文本文件" + msg[10:] + "不存在")
+        return
+
+    if msg[:11] == 'send sound ':
+        if os.path.isfile(msg[11:]):
+            stu.send_msg("正在发送音频至班牌...")
+            f = open(msg[11:], "rb")
+            stu.send_sound_msg(f)
+            f.close()
+        else:
+            stu.send_msg("错误：音频文件" + msg[10:] + "不存在")
+        return
+
+    if msg[:11] == 'send image ':
+        if os.path.isfile(msg[11:]):
+            stu.send_msg("正在发送图片至班牌...")
+            f = open(msg[11:], "rb")
+            stu.send_image_msg(f)
+            f.close()
+        else:
+            stu.send_msg("错误：图片文件" + msg[10:] + "不存在")
+        return
+
+    if msg[:11] == 'send video ':
+        if os.path.isfile(msg[11:]):
+            stu.send_msg("正在发送视频至班牌...")
+            f = open(msg[11:], "rb")
+            stu.send_video_msg(f)
+            f.close()
+        else:
+            stu.send_msg("错误：视频文件" + msg[10:] + "不存在")
+        return
+
+    raise Exception("未知的子命令.")
 
 def handle(msg):
     global stu
@@ -43,26 +114,18 @@ def music(msg):
 
     if msg[:10] == 'music get ':
         try:
-            stu.send_msg("正在下载...")
+            stu.send_msg("正在下载音乐至服务器...")
             get_163_music(msg[10:], msg[10:] + ".mp3")
-            stu.send_msg("正在转码...")
             global music_vol
-            ff = ffmpy.FFmpeg(
-                inputs={msg[10:] + ".mp3": None},
-                outputs={msg[10:] + ".amr": "-ab 23.85k -acodec amr_wb -ac 1 -ar 16000 -vol " + str(music_vol)}
-            )
-            ff.run()
-            stu.send_msg("正在上传...")
-            f = open(msg[10:] + ".amr", "rb")
+            stu.send_msg("正在发送音乐至班牌...")
+            f = open(msg[10:] + ".mp3", "rb")
             stu.send_sound_msg(f)
             f.close()
-            os.remove(msg[10:] + ".amr")
             os.remove(msg[10:] + ".mp3")
             return
         except Exception as e:
             try:
                 os.remove(msg[10:] + ".mp3")
-                os.remove(msg[10:] + ".amr")
             except Exception as e1:
                 pass
             raise e
@@ -96,6 +159,7 @@ def search(msg):
 commands.append([status, "status", "查询服务器状态"])
 commands.append([search, "search", "百度百科搜索"])
 commands.append([music, "music", "网易云音乐 子命令: search & get & vol"])
+commands.append([send, "send", "[DEBUG] 发送文件至班牌 子命令：view & message & text & sound & image & video（正在进行测试，测试命令：test）"])
 
 config = json.loads("{}")
 
@@ -114,7 +178,7 @@ except Exception as e:
 
 stu = IncichStudent(config['unionid'], config['name'], config['code'])
 time.sleep(2)
-stu.send_msg("Incich School Utilities v2 启动成功. 输入Help以查询更多信息.")
+stu.send_msg("Incich School Utilities v3-Beta 启动成功. 输入Help以查询更多信息.")
 
 
 while True:
