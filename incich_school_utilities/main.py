@@ -41,7 +41,7 @@ def send(msg):
         stu.send_msg(msg[13:])
         return
 
-    if msg[:11] == 'send text ':
+    if msg[:10] == 'send text ':
         if os.path.isfile(msg[10:]):
             stu.send_msg("正在发送文本至班牌...")
             f = open(msg[10:])
@@ -145,6 +145,8 @@ def status(msg):
     res += "绑定学生信息: " + str(stu.stu_info) + "\n"
     res += "已经处理的消息: " + str(stu.msg_processed) + "\n"
     stu.send_msg(res)
+    f=os.popen("screenfetch")
+    stu.send_msg(f.read())
 
 
 def search(msg):
