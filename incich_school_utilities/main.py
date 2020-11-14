@@ -21,7 +21,7 @@ def send(msg):
             stu.send_test_msg(f)
             f.close()
         else:
-            stu.send_msg("错误：" + msg[10:] + "不存在")
+            stu.send_msg("错误：测试文件" + msg[10:] + "不存在")
         return
 
     if msg[:10] == 'send view ':
