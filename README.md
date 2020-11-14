@@ -6,7 +6,7 @@
 
 依赖: 
 
-- 相关 python 库(在 pip 上都有)
+- 相关 python 库(在 pip 上都有)，screenfetch 用于查看服务器信息
 
 - ~~网易云音乐需要 ffmpeg 用于转码, ffmpeg 需要支持 amr 转码.~~
 
