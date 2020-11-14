@@ -245,8 +245,8 @@ class IncichStudent:
         return req
 
 
-    # 发送一条测试消息，类型：3
-    def send_test_msg(self, input_file):
+    # 发送一条视频消息
+    def send_video_msg(self, input_file):
         res = requests.post('http://school.incich.com:9207/UploadImageServlet', files={
             "file": input_file
         }).json()
@@ -262,7 +262,31 @@ class IncichStudent:
             "stuguid": self.student_guid,
             "url": res['url'],
             "voicelen": 0,
-            "msg": ""
+            "msg": "%25E7%25BB%2599%25E6%2582%25A8%25E5%258F%2591%25E6%259D%25A5%25E4%25B8%2580%25E6%259D%25A1%25E8%25A7%2586%25E9%25A2%2591%25E6%25B6%2588%25E6%2581%25AF"
+        }).json()
+        logging.info(req)
+        self.msg_processed.append(req['guid'])
+        return req
+
+
+    # 发送一条图片消息
+    def send_image_msg(self, input_file):
+        res = requests.post('http://school.incich.com:9207/UploadImageServlet', files={
+            "file": input_file
+        }).json()
+        logging.info(res)
+        req = self.post(self.api_url + "/message/save", params={
+            "classid": self.class_id,
+            "schoolid": self.school_id,
+            "gradeid": self.grade_id,
+            "adduser": self.union_id,
+            "addusername": "IncichRobot",
+            "type": 4,
+            "stuname": self.student_name,
+            "stuguid": self.student_guid,
+            "url": res['url'],
+            "voicelen": 0,
+            "msg": "%25E7%25BB%2599%25E6%2582%25A8%25E5%258F%2591%25E6%259D%25A5%25E4%25B8%2580%25E6%259D%25A1%25E5%259B%25BE%25E7%2589%2587%25E6%25B6%2588%25E6%2581%25AF"
         }).json()
         logging.info(req)
         self.msg_processed.append(req['guid'])
