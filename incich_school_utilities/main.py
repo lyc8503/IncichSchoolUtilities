@@ -14,26 +14,17 @@ commands = []
 def send(msg):
     global stu
 
-    if msg[:10] == 'send test ':
-        if os.path.isfile(msg[10:]):
-            stu.send_msg("正在发送测试文件至班牌...")
-            f = open(msg[10:], "rb")
-            stu.send_test_msg(f)
-            f.close()
-        else:
-            stu.send_msg("错误：测试文件" + msg[10:] + "不存在")
-        return
-
     if msg[:10] == 'send view ':
         if os.path.exists(msg[10:]):
             if os.path.isfile(msg[10:]):
-                stu.send_msg("错误：路径" + msg[10:] + "指向一个文件")
+                stu.send_msg("错误：路径 " + os.path.abspath(msg[10:]) + " 指向一个文件")
             else:
-                for res in os.listdir(msg[10:]):
-                    stu.send_msg("正在查看服务器目录：" + msg[10:])
-                    stu.send_msg(res)
+                res = "正在查看服务器目录：" + os.path.abspath(msg[10:])
+                for listdir in os.listdir(msg[10:]):
+                    res += "\n" + listdir
+                stu.send_msg(res)
         else:
-            stu.send_msg("错误：目录" + msg[10:] + "不存在")
+            stu.send_msg("错误：目录 " + os.path.abspath(msg[10:]) + " 不存在")
         return
 
     if msg[:13] == 'send message ':
@@ -139,14 +130,14 @@ def music(msg):
 
 def status(msg):
     global stu
-    res = "服务器正在正常运行.\n"
+    f=os.popen("screenfetch -nN")
+    res = "服务器信息：" + f.read()
+    res += "服务器正在正常运行.\n"
     res += "Token:" + stu.token + "\n"
     res += "邀请码信息: " + str(stu.code_info) + "\n"
     res += "绑定学生信息: " + str(stu.stu_info) + "\n"
     res += "已经处理的消息: " + str(stu.msg_processed) + "\n"
     stu.send_msg(res)
-    f=os.popen("screenfetch")
-    stu.send_msg(f.read())
 
 
 def search(msg):
@@ -161,7 +152,7 @@ def search(msg):
 commands.append([status, "status", "查询服务器状态"])
 commands.append([search, "search", "百度百科搜索"])
 commands.append([music, "music", "网易云音乐 子命令: search & get & vol"])
-commands.append([send, "send", "[DEBUG] 发送文件至班牌 子命令：view & message & text & sound & image & video（正在进行测试，测试命令：test）"])
+commands.append([send, "send", "[DEBUG] 发送文件至班牌 子命令：view & message & text & sound & image & video"])
 
 config = json.loads("{}")
 
