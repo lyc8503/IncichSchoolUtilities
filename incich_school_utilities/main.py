@@ -152,7 +152,7 @@ def search(msg):
 commands.append([status, "status", "查询服务器状态"])
 commands.append([search, "search", "百度百科搜索"])
 commands.append([music, "music", "网易云音乐 子命令: search & get & vol"])
-commands.append([send, "send", "[DEBUG] 发送文件至班牌 子命令：view & message & text & sound & image & video"])
+commands.append([send, "send", "发送文件至班牌 子命令：view & message & text & sound & image & video"])
 
 config = json.loads("{}")
 
