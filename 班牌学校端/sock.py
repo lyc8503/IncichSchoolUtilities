@@ -16,12 +16,17 @@ class IncichSock:
 
     def send(self, data):
         logging.debug("SEND: " + data)
-        print(self.sock.send(bytes.fromhex(data)))
+        self.sock.sendall(bytes.fromhex(data))
 
     def recv(self):
+
+        # 读取包头获得包长度
         header = ""
         while len(header) < 12:
-            header += self.sock.recv(1).hex()
+            tmp = self.sock.recv(1)
+            if tmp.hex() == "":
+                raise Exception("Server returned a empty response.")
+            header += tmp.hex()
         # 包长度
         pack_len = struct.unpack('<L', bytes.fromhex(header[4:]))[0]
         body = self.sock.recv(pack_len).hex()
