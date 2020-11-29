@@ -3,7 +3,7 @@ from api.netease_music_api import query_song, get_163_music
 from api.wiki_api import wiki_search
 import time
 import os
-import ffmpy
+# import ffmpy
 import random
 import json
 
@@ -45,24 +45,28 @@ def music(msg):
         try:
             stu.send_msg("正在下载...")
             get_163_music(msg[10:], msg[10:] + ".mp3")
-            stu.send_msg("正在转码...")
-            global music_vol
-            ff = ffmpy.FFmpeg(
-                inputs={msg[10:] + ".mp3": None},
-                outputs={msg[10:] + ".amr": "-ab 23.85k -acodec amr_wb -ac 1 -ar 16000 -vol " + str(music_vol)}
-            )
-            ff.run()
+
+            # 测试转码是否可以省略
+            # stu.send_msg("正在转码...")
+            # global music_vol
+            # ff = ffmpy.FFmpeg(
+            #     inputs={msg[10:] + ".mp3": None},
+            #     outputs={msg[10:] + ".amr": "-ab 23.85k -acodec amr_wb -ac 1 -ar 16000 -vol " + str(music_vol)}
+            # )
+            # ff.run()
+
             stu.send_msg("正在上传...")
-            f = open(msg[10:] + ".amr", "rb")
+            # f = open(msg[10:] + ".amr", "rb")
+            f = open(msg[10:] + ".mp3", "rb")
             stu.send_sound_msg(f)
             f.close()
-            os.remove(msg[10:] + ".amr")
+            # os.remove(msg[10:] + ".amr")
             os.remove(msg[10:] + ".mp3")
             return
         except Exception as e:
             try:
                 os.remove(msg[10:] + ".mp3")
-                os.remove(msg[10:] + ".amr")
+                # os.remove(msg[10:] + ".amr")
             except Exception as e1:
                 pass
             raise e
