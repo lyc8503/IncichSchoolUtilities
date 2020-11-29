@@ -1,5 +1,6 @@
 import socket
 import logging
+import struct
 
 
 class IncichSock:
@@ -15,9 +16,16 @@ class IncichSock:
 
     def send(self, data):
         logging.debug("SEND: " + data)
-        self.sock.send(bytes.fromhex(data))
+        print(self.sock.send(bytes.fromhex(data)))
 
     def recv(self):
-        res = self.sock.recv(409600).hex()
-        logging.debug("RECV: " + res)
-        return res
+        header = ""
+        while len(header) < 12:
+            header += self.sock.recv(1).hex()
+        # 包长度
+        pack_len = struct.unpack('<L', bytes.fromhex(header[4:]))[0]
+        body = self.sock.recv(pack_len).hex()
+
+        content = header + body
+        logging.debug("RECV: " + content)
+        return content
