@@ -1,8 +1,4 @@
-## 紫橙班牌实用工具 v2
-
-p.s. 本项目中代码相对比较杂乱, 除了班牌家长客户端 api 的代码还有班牌学校端的协议逆向. 只是自己研究时留下的一部分代码.
-
-
+## 紫橙班牌实用工具 v3-Beta
 
 #### 部署
 
@@ -10,15 +6,18 @@ p.s. 本项目中代码相对比较杂乱, 除了班牌家长客户端 api 的�
 
 依赖: 
 
-- 相关 python 库(在 pip 上都有)
+- 相关 python 库(在 pip 上都有)，screenfetch 用于查看服务器信息
 
-- 网易云音乐需要 ffmpeg 用于转码, ffmpeg 需要支持 amr 转码.
+- ~~网易云音乐需要 ffmpeg 用于转码, ffmpeg 需要支持 amr 转码.~~
+
+- 经过测试，班牌可直接播放 mp3 文件，无需转码成 amr
 
 #### 基础功能: 
 
 - 获取所有学校的邀请码: 直接运行 python get_code.py
 - 在班牌上听网易云音乐
 - 在班牌上使用百度百科搜索
+- **[DOING]** 在班牌上访问服务器文件
 - **[TODO]** 在班牌上使用 Microsoft Todo
 - **[TODO]** 在班牌上发送 QQ 消息
 
@@ -26,7 +25,4 @@ p.s. 本项目中代码相对比较杂乱, 除了班牌家长客户端 api 的�
 
 - 提供了 python 包装的 api, 在 /incich_school_utilities/incich_api 下, 有能力的人可以自行开发.
 
-
-
-很抱歉 README 写的不是很详细, 但是代码都开源了. ~~自己看一下就会用了吧 :P~~
-
+本项目基于：https://github.com/lyc8503/IncichSchoolUtilities 进行二次开发
