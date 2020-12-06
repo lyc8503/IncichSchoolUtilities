@@ -29,6 +29,10 @@ class IncichProtocol():
             def run(self):
                 try:
                     while True:
+
+                        if not main_self.connected:
+                            raise ConnectionError("Connection aborted.")
+
                         if main_self.msg_list:
                             # 有消息时发送消息
                             main_self.conn.send(main_self.msg_list.pop(0), False)
@@ -53,6 +57,10 @@ class IncichProtocol():
             def run(self):
                 try:
                     while True:
+
+                        if not main_self.connected:
+                            raise ConnectionError("Connection aborted.")
+
                         # 如果有消息就添加到 res_list
                         res = main_self.conn.fetch()
                         if res:

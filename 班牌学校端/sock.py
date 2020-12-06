@@ -25,7 +25,7 @@ class IncichSock:
         while len(header) < 12:
             tmp = self.sock.recv(1)
             if tmp.hex() == "":
-                raise Exception("Server returned a empty response.")
+                raise Exception("Server returned an empty response. (Connection closed?)")
             header += tmp.hex()
         # 包长度
         pack_len = struct.unpack('<L', bytes.fromhex(header[4:]))[0]

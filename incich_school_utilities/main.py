@@ -73,7 +73,8 @@ def music(msg):
 
     if msg[:10] == 'music vol ':
         music_vol = int(msg[10:])
-        stu.send_msg("音量更改成功.")
+        # stu.send_msg("音量更改成功.")
+        stu.send_msg("本命令已经弃用, 可通过班牌设置更改音量.")
         return
     raise Exception("未知的子命令.")
 

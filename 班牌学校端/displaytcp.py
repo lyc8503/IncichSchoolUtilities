@@ -44,7 +44,7 @@ class IncichConn:
             # self.packet_time_start = int(data[36:][:14], 16) - int(time.time())
             # logging.debug("server time got: " + str(self.packet_time_start))
         else:
-            raise ConnectionError("error while handshake.")
+            raise ConnectionError("error while handshake. unexpected behaviour.")
         self.sock = sock
 
     # def get_packet_time(self):
