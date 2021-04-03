@@ -5,7 +5,7 @@ from displaytcp import IncichConn
 
 class IncichProtocol():
 
-    def __init__(self, ip, port, sn):
+    def __init__(self, ip, port, sn, enable_debug_file=False):
         super().__init__()
 
         self.msg_list = []
@@ -18,7 +18,7 @@ class IncichProtocol():
         self.port = port
         self.sn = sn
         main_self = self
-        self.conn = IncichConn(ip, port, sn)
+        self.conn = IncichConn(ip, port, sn, enable_debug_file)
 
         # 发送消息线程
         class SendThread(threading.Thread):

@@ -32,13 +32,19 @@ def get_packet_time():
 
 class IncichConn:
 
-    def __init__(self, ip, port, sn):
+    def __init__(self, ip, port, sn, debug_output):
         self.sn = sn
         self.packet_time_start = None
 
+        if debug_output:
+            self.debug_f = open(sn + "_" + str(round(time.time())) + "_stream", "w")
+        else:
+            self.debug_f = None
+
         sock = IncichSock(ip, port)
-        sock.send(packet_start + "25000000" + packet_sep_1 + get_packet_time() + packet_sep_2_heartbeat + sn.encode("ascii").hex() + packet_end)
-        data = sock.recv()
+
+        sock.send(packet_start + "25000000" + packet_sep_1 + get_packet_time() + packet_sep_2_heartbeat + sn.encode("ascii").hex() + packet_end, self.debug_f)
+        data = sock.recv(self.debug_f)
         if data[:36] == "4e4d2500000001000001ffffffffffffffff":
             logging.info("handshake ok!")
             # self.packet_time_start = int(data[36:][:14], 16) - int(time.time())
@@ -52,7 +58,7 @@ class IncichConn:
 
     def fetch(self):
 
-        data = self.sock.recv()
+        data = self.sock.recv(self.debug_f)
         #
         # # 更新服务器时间
         # # 此处服务器时间不是 unix 时间戳, 而是16进制表示的日期 + 小时分钟
@@ -86,4 +92,4 @@ class IncichConn:
             sep_2 = packet_sep_2_data
 
         packet_body = packet_sep_1 + get_packet_time() + sep_2 + content.encode("utf-8").hex() + packet_end
-        self.sock.send(packet_start + get_packet_len(packet_body) + packet_body)
+        self.sock.send(packet_start + get_packet_len(packet_body) + packet_body, self.debug_f)
