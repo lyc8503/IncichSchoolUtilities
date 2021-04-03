@@ -6,10 +6,6 @@ import random
 from urllib.parse import unquote_plus
 
 
-logging.basicConfig(format='%(asctime)s - %(pathname)s[line:%(lineno)d] - %(levelname)s: %(message)s',
-                    level=logging.INFO)
-
-
 class IncichStudent:
 
     api_url = "http://school.incich.com:9208/display-rest"
@@ -289,6 +285,10 @@ class IncichStudent:
             if not bind_res['success']:
                 raise Exception("绑定学生失败: " + str(bind_res))
             self.student_guid = bind_res['guid']
+
+            # 绑定后刷新 stu_info
+            self.stu_info = self.get_student()['data']
+
 
         logging.info("学生GUID: " + self.student_guid)
 
