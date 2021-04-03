@@ -14,11 +14,14 @@ class IncichSock:
     def disconnect(self):
         self.sock.close()
 
-    def send(self, data):
+    def send(self, data, debug_file):
         logging.debug("SEND: " + data)
         self.sock.sendall(bytes.fromhex(data))
 
-    def recv(self):
+        if debug_file is not None:
+            debug_file.write("SEND: " + data)
+
+    def recv(self, debug_file):
 
         # 读取包头获得包长度
         header = ""
@@ -33,4 +36,8 @@ class IncichSock:
 
         content = header + body
         logging.debug("RECV: " + content)
+
+        if debug_file is not None:
+            debug_file.write("RECV: " + content)
+
         return content
