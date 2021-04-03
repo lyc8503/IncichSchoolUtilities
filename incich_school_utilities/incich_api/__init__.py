@@ -240,6 +240,29 @@ class IncichStudent:
         self.msg_processed.append(req['guid'])
         return req
 
+    # 发送一条视频消息
+    def send_video_msg(self, input_file):
+        res = requests.post('http://school.incich.com:9207/UploadImageServlet', files={
+            "file": input_file
+        }).json()
+        logging.info(res)
+        req = self.post(self.api_url + "/message/save", params={
+            "classid": self.class_id,
+            "schoolid": self.school_id,
+            "gradeid": self.grade_id,
+            "adduser": self.union_id,
+            "addusername": "IncichRobot",
+            "type": 3,
+            "stuname": self.student_name,
+            "stuguid": self.student_guid,
+            "aspectratio": 1.5,
+            "url": res['url'],
+            "msg": ""
+        }).json()
+        logging.info(req)
+        self.msg_processed.append(req['guid'])
+        return req
+
     def __init__(self, union_id, student_name, invite_code):
         logging.info("正在初始化...")
         self.union_id = union_id
