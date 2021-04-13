@@ -5,8 +5,7 @@ from api.text_html import get_http_text
 import time
 import os
 from easyprocess import EasyProcess
-# 经检验 无需转码 amr 即可播放
-# import ffmpy
+import ffmpy
 import random
 import json
 import logging
@@ -34,7 +33,7 @@ def handle(msg, student):
     else:
         student.send_msg("未知的命令: " + msg + " 请输入Help获取更多信息.")
 
-
+music_vol = 256
 
 def music(msg, student):
     if msg[:13] == 'music search ':
@@ -46,13 +45,23 @@ def music(msg, student):
         try:
             student.send_msg("正在下载...")
             get_163_music(msg[10:], msg[10:] + ".mp3")
-
-            # 经检验 无需转码 amr 即可播放
-
-            student.send_msg("正在上传...")
-            f = open(msg[10:] + ".mp3", "rb")
-            student.send_sound_msg(f)
-            f.close()
+            if music_vol == 256:
+                student.send_msg("正在上传...")
+                f = open(msg[10:] + ".mp3", "rb")
+                stu.send_sound_msg(f)
+                f.close()
+            else:
+                student.send_msg("正在更改音量...")
+                ff = ffmpy.FFmpeg(
+                    inputs={msg[10:] + ".mp3": None},
+                    outputs={msg[10:] + "_vol.mp3": "-vol " + str(music_vol)}
+                )
+                ff.run()
+                student.send_msg("正在上传...")
+                f = open(msg[10:] + "_vol.mp3", "rb")
+                stu.send_sound_msg(f)
+                f.close()
+                os.remove(msg[10:] + "_vol.mp3")
             os.remove(msg[10:] + ".mp3")
             return
         except Exception as e:
@@ -62,6 +71,10 @@ def music(msg, student):
                 pass
             raise e
 
+    if msg[:10] == 'music vol ':
+        music_vol = int(msg[10:])
+        student.send_msg("音量已更改为：" + str(music_vol) + ' (' + str(round(music_vol/2.56)) + '%)')
+        return
     raise Exception("未知的子命令.")
 
 
@@ -130,7 +143,7 @@ def shell_access(msg, student):
 
 commands.append([status, "status", "查询服务器状态"])
 commands.append([search, "search", "百度百科搜索 用法: search <关键字>"])
-commands.append([music, "music", "网易云音乐 子命令: music search <音乐名> / get <音乐ID>"])
+commands.append([music, "music", "网易云音乐 子命令: music search <音乐名> / get <音乐ID> / vol <音量数值>"])
 commands.append([sendmsg, "sendmsg", "给指定的学生发送消息 用法: sendmsg <邀请码> <姓名> <消息内容>"])
 commands.append([wget, "wget", "以纯文本的方式浏览网站 用法: wget <网址>"])
 commands.append([shell_access, "shell", "在运行 Incich School Utilities 的服务器上执行 shell 命令 用法: shell <命令>"])
