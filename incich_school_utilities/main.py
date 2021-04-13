@@ -48,7 +48,7 @@ def music(msg, student):
             if music_vol == 256:
                 student.send_msg("正在上传...")
                 f = open(msg[10:] + ".mp3", "rb")
-                stu.send_sound_msg(f)
+                student.send_sound_msg(f)
                 f.close()
             else:
                 student.send_msg("正在更改音量...")
@@ -59,7 +59,7 @@ def music(msg, student):
                 ff.run()
                 student.send_msg("正在上传...")
                 f = open(msg[10:] + "_vol.mp3", "rb")
-                stu.send_sound_msg(f)
+                student.send_sound_msg(f)
                 f.close()
                 os.remove(msg[10:] + "_vol.mp3")
             os.remove(msg[10:] + ".mp3")
