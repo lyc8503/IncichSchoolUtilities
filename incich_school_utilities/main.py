@@ -36,6 +36,7 @@ def handle(msg, student):
 music_vol = 256
 
 def music(msg, student):
+    global music_vol
     if msg[:13] == 'music search ':
         res = query_song(msg[13:])
         student.send_msg(res)
